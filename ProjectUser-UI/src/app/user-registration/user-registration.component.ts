@@ -11,7 +11,7 @@ export class UserRegistrationComponent implements OnInit {
 
   userForm!: FormGroup;
   submitted = false;
-  private baseUrl = 'http://localhost:8084/user'; // backend URL
+  private baseUrl = 'http://localhost:8084/user'; 
 
   constructor(private fb: FormBuilder, private httpService: HttpServiceService) {}
 
@@ -22,24 +22,26 @@ export class UserRegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       dob: ['', Validators.required],
-      flag: [1]  // default
+      flag: [1] 
     });
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.userForm.controls; }
+  
+  get f() {
+     return this.userForm.controls;
+     }
 
   onSubmit(): void {
     this.submitted = true;
 
-    // stop here if form is invalid
+  
     if (this.userForm.invalid) {
       alert('Please fill all required fields correctly!');
       return;
     }
 
-    const headers = { 'Content-Type': 'application/json' };
-    this.httpService.post<any>(`${this.baseUrl}/add`, this.userForm.value, headers)
+   // const headers = { 'Content-Type': 'application/json' };
+    this.httpService.post<any>(`${this.baseUrl}/add`, this.userForm.value)
       .subscribe({
         next: (res: any) => {
           console.log('User Created Successfully:', res);
