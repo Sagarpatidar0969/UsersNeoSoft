@@ -9,5 +9,7 @@ public interface UserServiceInt {
 	public  User update(Long id, User user); 
 	
 	public void delete(Long id);
+	
+	
 	    
 }

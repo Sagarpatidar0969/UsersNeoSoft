@@ -1,6 +1,7 @@
 package com.neosoft.user.userserviceimpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +16,17 @@ public class UserServiceImpl implements UserServiceInt {
 
 	@Autowired
 	public UserRepositoryInt userRepositoryInt;
+	
+	// public PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public User add(User user) {
 
 		return userRepositoryInt.save(user);
+		
+//		user.setPassword(passwordEncoder.encode(user.getPassword()));
+//		return userRepositoryInt.save(user);
 	}
 
 	@Override
@@ -48,5 +54,7 @@ public class UserServiceImpl implements UserServiceInt {
 
 	    userRepositoryInt.save(existing);   
 	}
+
+	
 
 }

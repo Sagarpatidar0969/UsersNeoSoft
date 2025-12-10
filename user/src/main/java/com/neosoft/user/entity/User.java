@@ -45,5 +45,7 @@ public class User {
 	
 	@Column(nullable = false)
 	private Integer flag = 1;
+	
+	
 
 }
