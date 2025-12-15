@@ -1,0 +1,54 @@
+<div class="container mt-3">
+  <h2>User List</h2>
+
+  <!-- Add User Button -->
+  <button class="btn btn-primary mb-2" (click)="addUser()">Add User</button>
+
+  <!-- User Table -->
+  <table class="table table-bordered mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile No</th>
+        <th>DOB</th>
+        <th>Status</th>
+        <th>Actions</th> <!-- Added Actions Column -->
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.mobileNo }}</td>
+        <td>{{ user.dob | date: 'dd-MM-yyyy' }}</td>
+        <td>
+          <span [ngClass]="user.flag === 1 ? 'active' : 'inactive'">
+            {{ user.flag === 1 ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-success me-2" (click)="editUser(user)">
+            Update
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between mt-3">
+    <button class="btn btn-primary" (click)="prevPage()" [disabled]="page === 0">
+      Previous
+    </button>
+
+    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page === totalPages - 1">
+      Next
+    </button>
+  </div>
+</div>

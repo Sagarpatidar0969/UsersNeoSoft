@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neosoft.user.entity.User;
@@ -45,5 +46,32 @@ public class UserCtl {
 	     return ResponseEntity.ok("User soft-deleted successfully");
 	 }
 	
+	 @GetMapping("/list")
+	 public ResponseEntity<?> listUsers(
+	         @RequestParam(defaultValue = "0") int page,
+	         @RequestParam(defaultValue = "5") int size) {
+
+	     return ResponseEntity.ok(userServiceImpl.getUsers(page, size));
+	 }
+	 
+	 
+//	 @PutMapping("/update/{id}")
+//	    public ResponseEntity<User> editUser(@PathVariable Long id, @RequestBody User user) {
+//	        User updatedUser = userServiceImpl.editUser(id, user);
+//	        if (updatedUser != null) {
+//	            return ResponseEntity.ok(updatedUser);
+//	        } else {
+//	            return ResponseEntity.notFound().build();
+//	        }
+//	    }
+	  @GetMapping("/{id}")
+	    public ResponseEntity<User> findUser(@PathVariable Long id) {
+	        User user = userServiceImpl.getUserById(id);
+	        if (user != null) {
+	            return ResponseEntity.ok(user);
+	        } else {
+	            return ResponseEntity.notFound().build();
+	        }
+	    }
 	
 }

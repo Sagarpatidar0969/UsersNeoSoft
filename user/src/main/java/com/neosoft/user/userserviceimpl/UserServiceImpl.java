@@ -1,6 +1,11 @@
 package com.neosoft.user.userserviceimpl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -54,6 +59,34 @@ public class UserServiceImpl implements UserServiceInt {
 
 	    userRepositoryInt.save(existing);   
 	}
+	
+	
+	
+	public Page<User> getUsers(int page, int size) {
+	    Pageable pageable = PageRequest.of(page, size);
+	    return userRepositoryInt.findAll(pageable);
+	}
+	
+	
+	public User editUser(Long id, User user) {
+
+	    User existingUser = userRepositoryInt.findById(id)
+	        .orElseThrow(() -> new RuntimeException("User not found"));
+
+	    existingUser.setName(user.getName());
+	    existingUser.setEmail(user.getEmail());
+
+	    if (existingUser.getFlag() == null) {
+	        existingUser.setFlag(1); // SAFETY
+	    }
+
+	    return userRepositoryInt.save(existingUser);
+	}
+	
+	public User getUserById(Long id) {
+        Optional<User> optionalUser = userRepositoryInt.findById(id);
+        return optionalUser.orElse(null); 
+    }
 
 	
 
