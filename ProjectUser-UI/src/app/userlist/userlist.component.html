@@ -1,25 +1,39 @@
 <div class="container mt-3">
   <h2>User List</h2>
 
-  <!-- Add User Button -->
-  <button class="btn btn-primary mb-2" (click)="addUser()">Add User</button>
+  <!-- Add & Delete Buttons -->
+  <div class="mb-2">
+    <button class="btn btn-primary me-2" (click)="addUser()">Add User</button>
+    <button class="btn btn-danger" (click)="deleteUsers()" [disabled]="selectedUserIds.length === 0">
+      Delete Selected
+    </button>
+  </div>
 
-  <!-- User Table -->
   <table class="table table-bordered mt-3">
     <thead class="table-dark">
       <tr>
+        <th>
+          <input type="checkbox" (change)="selectAll($event)" />
+        </th>
         <th>ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Mobile No</th>
         <th>DOB</th>
         <th>Status</th>
-        <th>Actions</th> <!-- Added Actions Column -->
+        <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of activeUsers">
+        <td>
+          <input
+            type="checkbox"
+            [checked]="selectedUserIds.includes(user.id)"
+            (change)="toggleSelection(user.id, $event)"
+          />
+        </td>
         <td>{{ user.id }}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
@@ -31,24 +45,22 @@
           </span>
         </td>
         <td>
-          <button class="btn btn-sm btn-success me-2" (click)="editUser(user)">
+          <button class="btn btn-sm btn-success" (click)="editUser(user)">
             Update
           </button>
+
+          
         </td>
       </tr>
     </tbody>
   </table>
-
-  <!-- Pagination -->
-  <div class="d-flex justify-content-between mt-3">
-    <button class="btn btn-primary" (click)="prevPage()" [disabled]="page === 0">
-      Previous
-    </button>
-
-    <span>Page {{ page + 1 }} of {{ totalPages }}</span>
-
-    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page === totalPages - 1">
-      Next
-    </button>
-  </div>
+  <div class="mt-3">
+  <button class="btn btn-secondary me-2" (click)="prevPage()" [disabled]="page === 0">
+    Previous
+  </button>
+  <button class="btn btn-secondary" (click)="nextPage()" [disabled]="page >= totalPages - 1">
+    Next
+  </button>
+  <span class="ms-3">Page {{ page + 1 }} of {{ totalPages }}</span>
+</div>
 </div>

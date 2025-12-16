@@ -13,6 +13,7 @@ export class UserlistComponent implements OnInit {
   totalPages: number = 0;
   page: number = 0;
   size: number = 5;
+   selectedUserIds: number[] = [];
 
   constructor(private userService: UserserviceService,private router: Router) {}
 
@@ -27,6 +28,7 @@ export class UserlistComponent implements OnInit {
           console.log(response);  
           this.users = response.content;
           this.totalPages = response.totalPages;
+          this.selectedUserIds = [];
         },
         error: (err) => console.error(err)
       });
@@ -52,4 +54,52 @@ export class UserlistComponent implements OnInit {
     this.router.navigate(['/user',user.id]);
     
   }
+
+ // single checkbox select
+  toggleSelection(userId: number, event: any) {
+    if (event.target.checked) {
+      this.selectedUserIds.push(userId);
+    } else {
+      this.selectedUserIds = this.selectedUserIds.filter(id => id !== userId);
+    }
+  }
+
+
+
+   selectAll(event: any) {
+    if (event.target.checked) {
+      this.selectedUserIds = this.users.map(user => user.id);
+    } else {
+      this.selectedUserIds = [];
+    }
+  }
+
+
+   // delete selected users
+  deleteUsers() {
+    if (this.selectedUserIds.length === 0) {
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete selected users?')) {
+      return;
+    }
+
+    this.userService.deleteUser(this.selectedUserIds).subscribe({
+      next: () => {
+        alert('Users deleted successfully');
+        this.loadUsers();
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+
+  get activeUsers() {
+  return this.users.filter(u => u.flag === 1);
 }
+
+
+}
+
+

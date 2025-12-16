@@ -1,5 +1,7 @@
 package com.neosoft.user.userserviceint;
 
+import java.util.List;
+
 import com.neosoft.user.entity.User;
 
 public interface UserServiceInt {
@@ -8,7 +10,9 @@ public interface UserServiceInt {
 	
 	public  User update(Long id, User user); 
 	
-	public void delete(Long id);
+	
+
+	public void delete(List<Long> userIds);
 	
 	
 	    

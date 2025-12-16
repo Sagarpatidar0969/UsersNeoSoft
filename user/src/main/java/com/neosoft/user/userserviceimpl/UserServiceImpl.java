@@ -1,5 +1,6 @@
 package com.neosoft.user.userserviceimpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +51,12 @@ public class UserServiceImpl implements UserServiceInt {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void delete(Long id) {
-	    User existing = userRepositoryInt.findById(id)
-	            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
-
-	    
-	    existing.setFlag(0);
-
-	    userRepositoryInt.save(existing);   
+	public void delete(List<Long> userIds) {
+	    // Soft delete example
+	    userRepositoryInt.findAllById(userIds).forEach(user -> {
+	    	 user.setFlag(0);  // soft delete flag
+	        userRepositoryInt.save(user);
+	    });
 	}
 	
 	

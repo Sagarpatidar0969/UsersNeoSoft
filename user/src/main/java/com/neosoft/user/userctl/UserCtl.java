@@ -1,5 +1,7 @@
 package com.neosoft.user.userctl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,11 +42,11 @@ public class UserCtl {
 	    }
 	 
 	 
-	 @DeleteMapping("/delete/{id}")
-	 public ResponseEntity<String> softDeleteUser(@PathVariable Long id) {
-	     userServiceImpl.delete(id);
-	     return ResponseEntity.ok("User soft-deleted successfully");
-	 }
+		 @PostMapping("/delete")
+		 public ResponseEntity<String> softDeleteUser(@RequestBody List<Long> userIds) {
+		     userServiceImpl.delete(userIds);
+		     return ResponseEntity.ok("User soft-deleted successfully");
+		 }
 	
 	 @GetMapping("/list")
 	 public ResponseEntity<?> listUsers(

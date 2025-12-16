@@ -23,5 +23,13 @@ export class UserserviceService {
   updateUser(id: number, user: any): Observable<any> {
     return this.httpService.put(`${this.baseUrl}/update/${id}`, user);
   }
-  
+
+  deleteUser(userIds: number[]): Observable<void> {
+    return this.httpService.post(`${this.baseUrl}/delete`,
+      userIds
+    );
+  }
+
 }
+
+  
