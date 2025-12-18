@@ -14,9 +14,11 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Backend') {
             steps {
-                sh 'mvn clean package'
+                dir('user') {          // 👈 IMPORTANT
+                    sh 'mvn clean package'
+                }
             }
         }
     }
@@ -24,6 +26,7 @@ pipeline {
     post {
         success {
             echo 'Backend build successful ✅'
+            archiveArtifacts 'user/target/*.jar'
         }
         failure {
             echo 'Backend build failed ❌'
