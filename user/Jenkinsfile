@@ -6,6 +6,10 @@ pipeline {
         maven 'Maven3'
     }
 
+    environment {
+        JAR_PATH = 'user/target/user-0.0.1-SNAPSHOT.jar'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -16,7 +20,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                dir('user') {          // 👈 yahin pom.xml hai
+                dir('user') {
                     bat 'mvn clean package'
                 }
             }
@@ -26,7 +30,7 @@ pipeline {
     post {
         success {
             echo '✅ Backend build successful'
-            archiveArtifacts 'user/target/*.jar'
+            archiveArtifacts artifacts: 'user/target/*.jar', fingerprint: true
         }
         failure {
             echo '❌ Backend build failed'
