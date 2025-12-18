@@ -16,8 +16,8 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                dir('user') {          // 👈 IMPORTANT
-                    sh 'mvn clean package'
+                dir('user') {          // 👈 yahin pom.xml hai
+                    bat 'mvn clean package'
                 }
             }
         }
@@ -25,11 +25,11 @@ pipeline {
 
     post {
         success {
-            echo 'Backend build successful ✅'
+            echo '✅ Backend build successful'
             archiveArtifacts 'user/target/*.jar'
         }
         failure {
-            echo 'Backend build failed ❌'
+            echo '❌ Backend build failed'
         }
     }
 }
